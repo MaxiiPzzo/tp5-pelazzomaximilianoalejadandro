@@ -1,0 +1,50 @@
+<main>
+    <div class="row gx-4">
+        <div class="col-12 col-md-4">
+            <div class="formTransacciones rounded-3 p-4">
+                <form ngNativeValidate (submit)="registrarTransaccion()">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="transaccionName" [(ngModel)]="nuevaTransaccion.emailCliente" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="number" min="1" step="any" class="form-control" id="cantidad" (change)="transaccionConvertida=false" name="transaccionCantOrigen" [(ngModel)]="nuevaTransaccion.cantidadOrigen">
+                    </div>
+                    <div class="mb-3">
+                        <label for="divisaDe" class="form-label">Moneda Origen</label>
+                        <select id="divisaDe" class="form-select" name="transaccionOrigen" [(ngModel)]="nuevaTransaccion.monedaOrigen" (change)="transaccionConvertida=false" required>
+                            <option value="" selected>Seleccionar moneda...</option>
+                            @for(simbolo of simbolos;track simbolo;let first = $first){
+                                <option [value]="simbolo.simbolo" [selected]="first">{{simbolo.simbolo}} - {{simbolo.nombre}}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="divisaA" class="form-label">Moneda Destino</label>
+                        <select id="divisaA" class="form-select" name="transaccionDestino" [(ngModel)]="nuevaTransaccion.monedaDestino" (change)="transaccionConvertida=false" required="">
+                            <option value="" selected>Seleccionar moneda...</option>
+                            @for(simbolo of simbolos;track simbolo;let first = $first){
+                                <option [value]="simbolo.simbolo" [selected]="first">{{simbolo.simbolo}} - {{simbolo.nombre}}</option>
+                            }
+                        </select>
+                    </div>
+                    @if(nuevaTransaccion.cantidadDestino && transaccionConvertida){
+                        <div class="mb-3">
+                            <label class="form-label">Resultado Conversion</label>
+                            <p class="fw-bold">{{nuevaTransaccion.cantidadDestino|currency:nuevaTransaccion.monedaDestino}}</p>
+                        </div>
+                    }
+                    
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-primary" (click)="convertirMoneda()" [disabled]="!nuevaTransaccion.cantidadOrigen">Convertir</button>
+                        <button type="submit" class="btn btn-success" [disabled]="!transaccionConvertida">Registrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <app-transacciones-tabla [transaccionRegistrada] = "transaccionRegistrada"></app-transacciones-tabla>
+        </div>
+    </div>
+</main>

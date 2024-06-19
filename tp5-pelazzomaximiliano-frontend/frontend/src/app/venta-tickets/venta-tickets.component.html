@@ -1,0 +1,63 @@
+<div class="row row-cols-1 gy-3" style="width: 450px; margin: 40px auto;">
+    <div class="d-flex mt-0">
+        <button class="btn btn-banana btn-sm" type="button" routerLink="/resumenTicket">Volver</button>
+    </div>
+    <div class="col banana-card rounded-3 p-4">
+        <form id="ticket-form" ngNativeValidate (submit)="registrarTicket()">
+            <h3 class="text-center fw-bolder">Registrar Venta de Ticket</h3>
+            <div class="mb-3">
+                <label for="dniTicket" class="form-label">DNI</label>
+                <select class="form-select" aria-label="Default select example" required
+                    [(ngModel)]="editarTicket.espectador" name="idEspectador">
+                    <option value="" selected>Seleccionar espectador...</option>
+                    @for(espectador of espectadores;track espectador){
+                    <option [value]="espectador._id">{{espectador.apellido}}, {{espectador.nombre}}</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="precioTicket" class="form-label">Precio</label>
+                <div class="input-group">
+                    <div class="input-group-text">$</div>
+                    <input type="number" min="1" step="any" class="form-control" name="precioReal" id="precioTicket"
+                        [(ngModel)]="editarTicket.precioTicket" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Tipo de Espectador</label>
+                <select class="form-select" aria-label="Default select example" (change)="actualizarDescuento($event)"
+                    required [(ngModel)]="editarTicket.categoriaEspectador" name="categoriaEspectador">
+                    <option value="" selected>Seleccionar tipo...</option>
+                    <option value="l">Local</option>
+                    <option value="e">Extranjero</option>
+                </select>
+                <div id="emailHelp" class="form-text">Espectadores locales obtienen un descuento del
+                    {{descuentoLocal*100}}%.</div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Categoría</label>
+                <select class="form-select" aria-label="Default select example" required
+                    [(ngModel)]="editarTicket.categoria" name="categoriaTicket">
+                    <option value="" selected>Seleccionar categoría...</option>
+                    @for(categoria of listadoCategorias;track categoria){
+                        <option [value]="categoria._id" selected>{{categoria.nombre}}</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Fecha de Cobro</label>
+                <input type="date" class="form-control" id="exampleInputPassword1" name="fechaFormatizada"
+                    [ngModel]="fechaFormatizada" (ngModelChange)="editarTicket.fechaCompra=$event" required>
+            </div>
+        </form>
+    </div>
+    <div class="col banana-card rounded-3 p-4 d-flex justify-content-between align-items-center">
+        <div>
+            @if(precioCobrado){
+            <h4 class="align-middle fw-bold">Total</h4>
+            <label for="precioCobrado">{{precioCobrado | currency:'USD'}}</label>
+            }
+        </div>
+        <button class="btn btn-banana btn-lg" form="ticket-form" type="submit">Registrar</button>
+    </div>
+</div>

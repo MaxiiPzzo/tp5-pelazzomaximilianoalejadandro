@@ -1,0 +1,48 @@
+<div class="d-flex gap-2 justify-content-start mb-2">
+    <input type="radio" class="btn-check" name="options" id="tablaTodos" autocomplete="off" (change)="cargarTransacciones()" checked>
+    <label class="btn btn-outline-dark" for="tablaTodos">Todos</label>
+    <input type="radio" class="btn-check" name="options" id="tablaTransacciones" autocomplete="off">
+    <label class="btn btn-outline-dark text-nowrap" for="tablaTransacciones" (click)="filtrarTransaccionesForm=true">Por Filtro</label>
+    @if(filtrarTransaccionesForm){
+    <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="Moneda Origen" [(ngModel)]="monOrigenForm"/>
+    <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="Moneda Destino" [(ngModel)]="monDestinoForm"/>
+    <button type="button" name="" id="" class="btn btn-dark" [disabled]="validarFiltrarTransacciones()" (click)="cargarTransaccionesPorFiltro()">
+        Filtrar
+    </button>
+    }
+</div>
+<div class="table-responsive">
+    <table class="table table-secondary table-striped-columns  caption-top">
+        <thead class="text-center align-middle">
+          <tr>
+            <th scope="col" rowspan="2">Email Cliente</th>
+            <th scope="col" colspan="2">Origen</th>
+            <th scope="col" colspan="2">Destino</th>
+            <th scope="col" rowspan="2">Tasa Conversión</th>
+          </tr>
+          <tr>
+            <th scope="col">Moneda</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Moneda</th>
+            <th scope="col">Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+            @for (transaccion of transacciones; track transaccion) {
+              <tr>
+                  <td>{{transaccion.emailCliente}}</td>
+                  <td>{{transaccion.monedaOrigen}}</td>
+                  <td>{{transaccion.cantidadOrigen}}</td>
+                  <td>{{transaccion.monedaDestino}}</td>
+                  <td>{{transaccion.cantidadDestino}}</td>
+                  <td>{{transaccion.tasaConversion}}</td>
+                </tr>
+            }
+            @empty {
+              <tr>
+                <td colspan="8" class="text-center">No se encuentrón transacciones registradas.</td>
+              </tr>
+            }
+          </tbody>
+      </table>
+</div>

@@ -1,0 +1,28 @@
+nav {
+    background-color: #FAF4E6;
+    color: #141412;
+    margin: 0 16px 16px;
+    padding: 8px 8px;
+    min-height: 5rem;
+}
+
+.nav-link {
+    color: #141412;
+    font-weight: bold;
+    text-decoration: solid underline #141412 2px;
+    border-radius: 10px;
+    transition: all 0.5s ease;
+}
+
+.nav-link:hover {
+    padding: 8px;
+    background-color: #141412;
+    color: #FAF4E6;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.nav-link:active {
+    color:  #FAC335;
+    transform: scale(0.90);
+}

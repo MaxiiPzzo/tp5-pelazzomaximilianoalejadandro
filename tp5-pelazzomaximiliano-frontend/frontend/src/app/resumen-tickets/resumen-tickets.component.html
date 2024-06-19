@@ -1,0 +1,107 @@
+<main>
+    <div class="d-flex justify-content-between mb-2">
+        <div class="d-flex gap-2 justify-content-start">
+            <input type="radio" class="btn-check" name="options" id="ticketsTodos" autocomplete="off"
+                (change)="cargarLista()" value="todo" [(ngModel)]="opcionFiltro">
+            <label class="btn btn-outline-dark" for="ticketsTodos">Todos</label>
+            <input type="radio" class="btn-check" name="options" id="ticketsLocales" autocomplete="off" value="local"
+                (change)="cargarLista()" [(ngModel)]="opcionFiltro">
+            <label class="btn btn-outline-dark text-nowrap" for="ticketsLocales">Ventas Locales</label>
+            <input type="radio" class="btn-check" name="options" id="ticketsExtranjeros" autocomplete="off"
+                value="extranjero" (change)="cargarLista()" [(ngModel)]="opcionFiltro">
+            <label class="btn btn-outline-dark text-nowrap" for="ticketsExtranjeros">Ventas Extranjeros</label>
+            <input type="radio" class="btn-check" name="options" id="ticketsFiltro" autocomplete="off" value="filtro"
+                [(ngModel)]="opcionFiltro">
+            <label class="btn btn-outline-dark text-nowrap" for="ticketsFiltro">Filtrar por Categoría</label>
+            @if(opcionFiltro == 'filtro'){
+            <select class="form-select" aria-label="Default select example" required [(ngModel)]="categoriaAFiltrar"
+                name="categoriaTicket">
+                <option value="" selected>Seleccionar categoría...</option>
+                @for(categoria of listadoCategorias;track categoria){
+                <option [value]="categoria._id" selected>{{categoria.nombre}}</option>
+                }
+            </select>
+            <button type="button" name="" id="" class="btn btn-dark" [disabled]="!categoriaAFiltrar" (click)="cargarLista()">
+                Filtrar
+            </button>
+            }
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-banana" routerLink="/ventaTicket">Registrar Nuevo</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-secondary table-striped-columns  caption-top">
+            <thead class="text-center align-middle">
+                <tr>
+                    <th scope="col" colspan="4">Información de Espectador</th>
+                    <th scope="col" rowspan="2">Tipo Espectador</th>
+                    <th scope="col" rowspan="2">Categoría Ticket</th>
+                    <th scope="col" rowspan="2">Precio de Venta</th>
+                    <th scope="col" rowspan="2">Fecha Cobro</th>
+                    <th scope="col" rowspan="2">Acciones</th>
+                </tr>
+                <tr>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Correo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(ticket of listadoTickets;track ticket){
+                <tr>
+                    <td>{{ticket.espectador.dni}}</td>
+                    <td>{{ticket.espectador.apellido}}</td>
+                    <td>{{ticket.espectador.nombre}}</td>
+                    <td>{{ticket.espectador.email}}</td>
+                    <td>
+                        @switch (ticket.categoriaEspectador) {
+                        @case('e'){
+                        Extranjero
+                        }
+                        @case('l'){
+                        Local
+                        }
+                        }
+                    </td>
+                    <td>{{ticket.categoria?.nombre}}</td>
+                    <td class="text-end">{{ticket.precioTicket | currency:'USD'}}</td>
+                    <td>{{ticket.fechaCompra| date:'medium':'':'es' }}
+                    </td>
+                    <td>
+                        <div class="d-flex flex-fill gap-2 justify-content-center">
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                                (click)="confirmarEliminacion(ticket._id)">Borrar</button>
+                            <button type="button" class="btn btn-secondary"
+                                [routerLink]="'/editarTicket/'+ticket._id">Editar</button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h5 class="fw-bold">Borrar Ticket</h5>
+                    <p class="text-secondary">¿Estas seguro de que deseas borrar este ticket? Esta acción es
+                        irreversible.</p>
+                    <div class="row row-cols-2 gx-2">
+                        <div class="col d-grid">
+                            <button type="button" class="btn btn-secondary flex-fill"
+                                data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col d-grid">
+                            <button type="button" class="btn btn-danger flex-fill" (click)="borrarTicket()"
+                                data-bs-dismiss="modal">Borrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

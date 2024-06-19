@@ -1,0 +1,51 @@
+<main>
+    <div class="d-block d-sm-flex justify-content-end">
+        <div class="d-grid d-sm-flex mb-2 mb-sm-0">
+            <button type="button" class="btn btn-banana flex-fill" routerLink="/editarProductos">Editar Cátalogo
+                Producto</button>
+        </div>
+    </div>
+    <div id="sliderDestacados" class="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <h1 class="fw-bolder" style="font-size:5rem">PRO DUCTOS DESTA CADOS</h1>
+            </div>
+            @for(producto of productosDestacados;track producto;let first = $first){
+            <div [ngClass]="{'carousel-item': true, 'active': first}">
+                <div class="card h-100">
+                    <div class="list-group list-group-flush">
+                        <div class="row row-cols-2 gx-2 px-4 py-2">
+                            <span class="user-select-none text-secondary">{{producto.stock}} disp.</span>
+                            <span class="text-end user-select-none fw-bold">{{producto.precio | currency:'USD'}}</span>
+                        </div>
+                    </div>
+                    <div class="px-3 py-2">
+                        <img class="card-img-top" [src]="producto.imagen" alt="..."
+                            style="height: 12rem;object-fit: contain;">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">
+                            {{producto.nombre}}
+                        </h5>
+                        <p class="card-text">{{producto.descripcion}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev" style="opacity: 0%;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previo</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next" style="opacity: 0%;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="./assets/slider.js"></script>
